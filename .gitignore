@@ -1,0 +1,15 @@
+*.log
+*.iws
+out/
+target/
+test/reports
+lib/build
+build/
+.gradle/
+web-app/
+*.zip
+plugin.xml
+.DS_Store
+.idea/
+*.iml
+CodeNarcReport.html
