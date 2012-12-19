@@ -28,6 +28,7 @@ class CoherenceCacheGrailsPlugin {
   def pluginExcludes = [
   "grails-app/views/**",
   "web-app/**",
+  "lib/**",
   "**/.gitignore",
   "grails-app/*/grails/plugin/springcache/test/**",
   ]
