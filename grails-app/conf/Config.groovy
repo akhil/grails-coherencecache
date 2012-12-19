@@ -13,3 +13,14 @@ grails {
 		alias.cacheConfiguration="7. Cache Configuration"
 	}
 }
+/*
+log4j = { root ->
+	root.level = org.apache.log4j.Level.INFO
+	appenders {
+	  rollingFile name: "appLog", maxFileSize: 1024, file: "./log/app.log"
+	}
+
+        debug 'grails.plugin'
+	
+}
+*/
