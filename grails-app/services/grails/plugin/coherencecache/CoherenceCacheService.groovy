@@ -71,11 +71,11 @@ class CoherenceCacheService implements ApplicationContextAware {
   private doWithCacheInternal(NamedCache cache, Serializable key, Closure closure) {
     def value = cache.get(key)
     if (!value) {
-      if (log.isDebugEnabled()) log.debug "Cache '$cache.cacheName' missed with key '$key'"
+      if (log.isDebugEnabled()) log.debug "Cache '${cache.getCacheName()}' missed with key '$key'"
         value = closure()
         cache.put(key, value)
     } else {
-      if (log.isDebugEnabled()) log.debug "Cache '$cache.cacheName' hit with key '$key'"
+      if (log.isDebugEnabled()) log.debug "Cache '${cache.getCacheName()}' hit with key '$key'"
     }
     return value
   }
