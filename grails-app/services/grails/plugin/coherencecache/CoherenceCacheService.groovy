@@ -1,5 +1,5 @@
 /*
- * Copyright 2012 Akhil Kodali
+ * Copyright 2010 Rob Fletcher
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -25,55 +25,69 @@ import com.tangosol.net.NamedCache;
 
 class CoherenceCacheService implements ApplicationContextAware {
 
-	static private final log = LoggerFactory.getLogger(CoherenceCacheService.class)
-	static transactional = false
+  static private final log = LoggerFactory.getLogger(CoherenceCacheService.class)
+  static transactional = false
 
-	ApplicationContext applicationContext
-	//CacheManager springcacheCacheManager
-	boolean autoCreateCaches = true // TODO: config?
+  ApplicationContext applicationContext
+  //CacheManager springcacheCacheManager
+  boolean autoCreateCaches = true // TODO: config?
 
-	/**
-	 * Flushes the specified cache or set of caches.
-	 * @param cacheNamePatterns can be a single cache name or a regex pattern or a Collection/array of them.
-	 */
-	void flush(cacheNames) {
-	  if (cacheNames instanceof String) cacheNames = [cacheNames]
-          cacheNames.each { flushNamedCache(it) }
-        }
+  /**
+   * Flushes the specified cache or set of caches.
+   * @param cacheNamePatterns can be a single cache name or a regex pattern or a Collection/array of them.
+   */
+  void flush(cacheNames) {
+    if (cacheNames instanceof String) cacheNames = [cacheNames]
+      cacheNames.each { flushNamedCache(it) }
+  }
 
-        private void flushNamedCache(String cacheName) {
-          CacheFactory.getCache(cacheName).clear()
-        }
+  private void flushNamedCache(String cacheName) {
+    CacheFactory.getCache(cacheName).clear()
+  }
 
-	/**
-	 * Calls a closure conditionally depending on whether a cache entry from a previous invocation exists. If the
-	 * closure is called its return value is written to the cache..
-	 * @param cacheName The name of the cache to use.
-	 * @param key The key used to get and put cache entries.
-	 * @param closure The closure to invoke if no cache entry exists already.
-	 * @return The cached value if a cache entry exists or the return value of the closure otherwise.
-	 */
-	def doWithCache(String cacheName, Serializable key, Closure closure) {
-                NamedCache cache = CacheFactory.getCache(cacheName)
-		return doWithCacheInternal(cache, key, closure)
-	}
+  /**
+   * Calls a closure conditionally depending on whether a cache entry from a previous invocation exists. If the
+   * closure is called its return value is written to the cache..
+   * @param cacheName The name of the cache to use.
+   * @param key The key used to get and put cache entries.
+   * @param closure The closure to invoke if no cache entry exists already.
+   * @return The cached value if a cache entry exists or the return value of the closure otherwise.
+   */
+  def doWithCache(String cacheName, Serializable key, Closure closure) {
+    NamedCache cache = CacheFactory.getCache(cacheName)
+    return doWithCacheInternal(cache, key, closure)
+  }
 
-	private doWithCacheInternal(NamedCache cache, Serializable key, Closure closure) {
-		def value = cache.get(key)
-		if (!value) {
-			if (log.isDebugEnabled()) log.debug "Cache '$cache.cacheName' missed with key '$key'"
-			value = closure()
-			cache.put(key, value)
-		} else {
-			if (log.isDebugEnabled()) log.debug "Cache '$cache.cacheName' hit with key '$key'"
-		}
-		return value
-	}
+  def getCache(String cacheName) {
+    NamedCache cache = CacheFactory.getCache(cacheName)
+    return cache
+  }
+
+  def getFromCache(String cacheName, Serializable key) {
+    NamedCache cache = CacheFactory.getCache(cacheName)
+    return cache.get(key)
+  }
+
+  private doWithCacheInternal(NamedCache cache, Serializable key, Closure closure) {
+    def value = cache.get(key)
+    if (!value) {
+      if (log.isDebugEnabled()) log.debug "Cache '$cache.cacheName' missed with key '$key'"
+        value = closure()
+        cache.put(key, value)
+    } else {
+      if (log.isDebugEnabled()) log.debug "Cache '$cache.cacheName' hit with key '$key'"
+    }
+    return value
+  }
+
+  def isEnabled() {
+    true
+  }
 
 }
 
 class NoSuchCacheException extends RuntimeException {
-	NoSuchCacheException(String cacheName) {
-		super("No cache named '$cacheName' exists".toString())
-	}
+  NoSuchCacheException(String cacheName) {
+    super("No cache named '$cacheName' exists".toString())
+  }
 }

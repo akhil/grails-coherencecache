@@ -19,6 +19,6 @@ import grails.plugin.springcache.CacheKey
 
 interface KeyGenerator<T> {
 
-	CacheKey generateKey(T context)
+  CacheKey generateKey(T context)
 
 }

@@ -22,38 +22,38 @@ import grails.plugin.springcache.key.CacheKeyBuilder
  */
 final class CacheKey implements Serializable {
 
-	private final int hash
-	private final long checksum
+  private final int hash
+  private final long checksum
 
-	static CacheKey generate(Object[] components) {
-		def builder = new CacheKeyBuilder()
-		for (component in components) {
-			builder << component
-		}
-		builder.toCacheKey()
-	}
+  static CacheKey generate(Object[] components) {
+    def builder = new CacheKeyBuilder()
+    for (component in components) {
+      builder << component
+    }
+    builder.toCacheKey()
+  }
 
-	CacheKey(int hashCode, long checksum) {
-		this.hash = hashCode
-		this.checksum = checksum
-	}
+  CacheKey(int hashCode, long checksum) {
+    this.hash = hashCode
+    this.checksum = checksum
+  }
 
-	@Override
-	boolean equals(Object o) {
-		if (this.is(o)) return true
-		if (o == null) return false
-		if (!(o in getClass())) return false
-		hash == o.hash && checksum == o.checksum
-	}
+  @Override
+  boolean equals(Object o) {
+    if (this.is(o)) return true
+      if (o == null) return false
+        if (!(o in getClass())) return false
+          hash == o.hash && checksum == o.checksum
+  }
 
-	@Override
-	int hashCode() {
-		int result = hash
-		31 * result + (checksum ^ (checksum >>> 32))
-	}
+  @Override
+  int hashCode() {
+    int result = hash
+    31 * result + (checksum ^ (checksum >>> 32))
+  }
 
-	@Override
-	String toString() {
-		"CacheKey[$hash|$checksum]"
-	}
+  @Override
+  String toString() {
+    "CacheKey[$hash|$checksum]"
+  }
 }

@@ -17,6 +17,6 @@ package grails.plugin.springcache
 
 interface CacheResolver {
 
-	String resolveCacheName(String baseName)
+  String resolveCacheName(String baseName)
 
 }
