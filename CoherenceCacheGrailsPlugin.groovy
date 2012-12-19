@@ -29,6 +29,8 @@ class CoherenceCacheGrailsPlugin {
   "grails-app/views/**",
   "web-app/**",
   "lib/**",
+  "**/web.xml",
+  "grails-app/conf/**",
   "**/.gitignore",
   "grails-app/*/grails/plugin/springcache/test/**",
   ]
@@ -41,6 +43,7 @@ class CoherenceCacheGrailsPlugin {
   def description = "Provides annotation-driven caching of service methods and page fragments."
   def documentation = "http://gpc.github.com/grails-springcache"
 
+  /*
   def doWithWebDescriptor = {xml ->
     if (isEnabled(application)) {
       def filters = xml.filter
@@ -71,6 +74,7 @@ class CoherenceCacheGrailsPlugin {
       }
     }
   }
+  */
 
   def doWithSpring = {
     if (!isEnabled(application)) {
