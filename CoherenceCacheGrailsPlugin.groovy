@@ -37,12 +37,14 @@ class CoherenceCacheGrailsPlugin {
   def observe = ["groovyPages"]
   def loadAfter = ["groovyPages"]
 
-  def author = "Grails Plugin Collective"
-  def authorEmail = "grails.plugin.collective@gmail.com"
+  def author = "Akhil Kodali"
+  def authorEmail = "akhil.kodali@gmail.com"
   def title = "Coherence Cache Plugin"
-  def description = "Provides annotation-driven caching of service methods and page fragments."
-  def documentation = "http://gpc.github.com/grails-springcache"
+  def description = "Provides annotation-driven caching of service methods and page fragments using oracle coherence. Compatible with springcache plugin."
+  def documentation = "https://github.com/akhil/grails-coherencecache/blob/master/README.md"
 
+  def issueManagement = ["https://github.com/akhil/grails-coherencecache/issues"]
+  def scm = ["https://github.com/akhil/grails-coherencecache"]
   /*
   def doWithWebDescriptor = {xml ->
     if (isEnabled(application)) {
